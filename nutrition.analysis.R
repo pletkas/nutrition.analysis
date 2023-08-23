@@ -7,7 +7,7 @@ library(RColorBrewer)
 library(wordcloud)
 library(ggfortify)
 
-rawdata <- tibble(read.csv("/Users/sagepletka/Documents/data projects/food.nutrition/food.csv")) %>%
+rawdata <- tibble(read.csv("/Users/sagepletka/Documents/GitHub/nutrition.analysis/food.csv")) %>%
   clean_names()
 head(rawdata)
 #48 col, 7413 row
