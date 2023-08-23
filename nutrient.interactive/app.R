@@ -9,43 +9,41 @@
 
 library(shiny)
 
+library(tidyverse)
+library(corrplot)
+library(janitor)
+library(tidymodels)
+library(psych)
+library(RColorBrewer)
+library(wordcloud)
+library(ggfortify)
+
+rawdata <- tibble(read.csv("/Users/sagepletka/Documents/GitHub/nutrition.analysis/food.csv")) %>%
+  clean_names()
+
+useful_nutrient_only <- rawdata %>% select(-data_household_weights_1st_household_weight,
+                                           -data_household_weights_1st_household_weight_description, - data_household_weights_2nd_household_weight,
+                                           -data_household_weights_2nd_household_weight_description, -data_water, 
+                                           -data_refuse_percentage, -data_ash, -data_kilocalories, -data_sugar_total,
+                                           -data_fat_monosaturated_fat, -data_fat_polysaturated_fat, -data_fat_saturated_fat,
+                                           -data_fat_total_lipid, -data_fiber, -data_carbohydrate,
+                                           -data_vitamins_vitamin_a_iu, -data_vitamins_vitamin_a_rae,
+                                           -data_major_minerals_sodium)
+
+useful_columns <- colnames(useful_nutrient_only)
+
+
+
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Nutrient Density Analysis"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
+selectInput("nutrient", "Select Nutrient to see top 20 sources",
+            useful_columns)
 )
-
-# Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
     })
-}
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
