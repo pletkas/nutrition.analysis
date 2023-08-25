@@ -60,7 +60,7 @@ rawdata %>% slice_max(data_choline, n = 20) %>%
         
 #we can create a function that does this for us
 top_nutrients_plot <- function(nutrient) {
-  graph <- rawdata %>% slice_max({{nutrient}}, n = 20) %>%
+  graph <- rawdata %>% slice_max({{nutrient}}, n = 10) %>%
     ggplot(aes(reorder(description, -{{nutrient}}), {{nutrient}})) +
     geom_col(aes(fill = description), show.legend = FALSE) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 5)) +
@@ -119,7 +119,7 @@ wordcount <- tibble(cloudvec) %>% drop_na() %>%
   filter(cloudvec != "No Category") %>% count(cloudvec, sort = TRUE)
 wordcount
 
-wordcloud(words = wordcount$cloudvec, freq = wordcount$n, max.words = 50,
+cat_cloud <- wordcloud(words = wordcount$cloudvec, freq = wordcount$n, max.words = 50,
           random.order = FALSE, colors = brewer.pal(8, "Dark2"), 
           scale=c(3.5,0.25))
 
