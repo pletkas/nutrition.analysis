@@ -106,7 +106,7 @@ server <- function(input, output) {
  
   output$correlation <- renderText("Table of Correlations above .5")
   
-  output$cloudlabel <- renderText("Wordcloud of food categories")
+  output$cloudlabel <- renderText("Wordcloud of food categories from top 20 sources of each nutrient")
   
  output$dense <- renderPlot({
    useful_nutrient_only %>% slice_max(.data[[input$nutrient]], n = 10) %>% 
